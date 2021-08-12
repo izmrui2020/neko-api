@@ -26,6 +26,7 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PostSerializer
 
     def perform_create(self, serializer):
+        #ここで画像を取り出してメソッドを動かす。
         serializer.save(userPost=self.request.user)
 
 class CommentViewSet(viewsets.ModelViewSet):

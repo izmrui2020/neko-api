@@ -40,7 +40,7 @@ def build_model():
     model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
 
     # モデルのロード
-    model = load_model('./classifier_cnn.h5')
+    model = load_model('./classifier_cnn_aug.h5')
 
     return model
 
