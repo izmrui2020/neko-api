@@ -5,6 +5,8 @@ from keras.layers import Activation, Dropout, Flatten, Dense
 import keras,sys
 import numpy as np
 from PIL import Image
+import base64
+import io as cStringIO
 
 classes = ["inu", "neko"]
 num_classes = len(classes)
@@ -45,7 +47,8 @@ def build_model():
     return model
 
 def judge_img(img):
-    image = Image.open(img)
+    image_string = cStringIO.StringIO(base64.b64decode(img))
+    image = Image.open(image_string)
     image = image.convert('RGB')
     image = image.resize((image_size, image_size))
     data = np.asarray(image)/255
@@ -57,5 +60,6 @@ def judge_img(img):
     result = model.predict([X])[0]
     predicted = result.argmax()
     percentage = int(result[predicted] * 100)
-    print("{0} ({1} %)".format(classes[predicted], percentage))
+
+    return "{0} ({1} %)".format(classes[predicted], percentage)
 

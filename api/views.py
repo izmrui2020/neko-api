@@ -4,6 +4,8 @@ from rest_framework.permissions import AllowAny
 from . import serializers
 from .models import Profile, Post, Comment
 
+from .lib import judge_img
+
 class CreateUserView(generics.CreateAPIView):
     serializer_class = serializers.UserSerializer
     permission_classes = (AllowAny,)
@@ -26,6 +28,9 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PostSerializer
 
     def perform_create(self, serializer):
+        print(serializer)
+        img = serializer.data['img']
+        serializers.data['judge'] = judge_img(img)
         #ここで画像を取り出してメソッドを動かす。
         serializer.save(userPost=self.request.user)
 
