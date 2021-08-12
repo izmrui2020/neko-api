@@ -40,12 +40,12 @@ def build_model():
     model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
 
     # モデルのロード
-    model = load_model('./classifier_cnn_aug.h5')
+    model = load_model('../neko_ai/classifier_cnn_aug.h5')
 
     return model
 
-def main():
-    image = Image.open(sys.argv[1])
+def judge_img(img):
+    image = Image.open(img)
     image = image.convert('RGB')
     image = image.resize((image_size, image_size))
     data = np.asarray(image)/255
@@ -59,5 +59,3 @@ def main():
     percentage = int(result[predicted] * 100)
     print("{0} ({1} %)".format(classes[predicted], percentage))
 
-if __name__ == "__main__":
-    main()
