@@ -1,0 +1,14 @@
+Django=3.0.7
+pillow
+django-cors-headers
+django-templated-mail
+djangorestframework
+djangorestframework-simplejwt
+djoser
+flickrapi
+Keras
+PyJWT
+python-dotenv
+requests
+scikit-learn
+tensorflow
