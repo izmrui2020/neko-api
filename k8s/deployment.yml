@@ -1,0 +1,53 @@
+# deployment.yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: django-k8s-starter-web
+  labels:
+    app: django-k8s-starter
+    type: web
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: django-k8s-starter
+        type: web
+    spec:
+      containers:
+      - name: django-k8s-starter-web
+        image: ndevox/django-kubernetes-starter:latest
+        imagePullPolicy: Always
+        command: ["gunicorn", "--workers", "1", "--bind", ":8000",
+                  "--log-level", "INFO", "django_k8s_starter.wsgi:application"]
+        envFrom:
+        - configMapRef:
+            name: django-k8s-starter-config
+        ports:
+        - containerPort: 8000
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: django-k8s-starter-worker
+  labels:
+    app: django-k8s-starter
+    type: worker
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: django-k8s-starter
+        type: worker
+    spec:
+      containers:
+      - name: django-k8s-starter-worker
+        image: ndevox/django-kubernetes-starter:latest
+        imagePullPolicy: Always
+        command: ["celery", "-A", "demo_tasks.tasks:app",
+                  "--loglevel=INFO", "worker"]
+        envFrom:
+        - configMapRef:
+            name: django-k8s-starter-config
+
